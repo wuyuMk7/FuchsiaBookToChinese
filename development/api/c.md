@@ -10,8 +10,8 @@ A different document will be written for C++ libraries. While C++ is
 almost an extension of C, and has some influence in this document, the
 patterns for writing C++ libraries will be quite different than for C.
 
-针对 C++ 库将编写一个不同的文档。虽然 C++ 几乎是 C 的扩展，并且在本文档中产生了
-一些影响，但编写 C++ 库的模式将与 C 完全不同。
+针对 C++ 库将编写一个不同的文档。虽然 C++ 几乎是 C 的扩展，并且对本文档中产生了
+一定影响，但编写 C++ 库的模式将与 C 完全不同。
 
 Most of this document is concerned with the description of an
 interface in a C header. This is not a full C style guide, and has
@@ -48,7 +48,7 @@ cannot assume that third parties are using any particular compiler,
 with a handful of exceptions for the DDK described below.
 
 一些包含了稳定 ABI 的 Fuchsia 接口将以 C 库的形式发布。此文档的目的之一是让
-Fuchsia 开发者更加方便地编写以及维护稳定的 ABI。相应的，我i们建议不要使用 C 
+Fuchsia 开发者更加方便地编写以及维护稳定的 ABI。相应的，我们建议不要使用 C 
 语言的某些功能，这些功能可能会对接口的 ABI 产生令人惊讶的或是复杂的影响。我们
 同样也不允许非标准的编译器插件，因为我们不能假设第三方正在使用任何特定的编译器
 ，但下面描述的 DDK 有少数例外。
@@ -60,7 +60,7 @@ Parts of this document describe best practices for resource management
 in C. This includes resources, Zircon handles, and any other type of
 resource.
 
-此文档的一部分描述了在 C 中资源管理的最佳实践。这包括了 资源， Zircon handles 以及
+此文档的一部分描述了在 C 中资源管理的最佳实践。这包括了资源， Zircon handles 以及
 任何其它类型的资源。
 
 ### Standardization
@@ -83,7 +83,7 @@ sed to sophisticated libclang-based tooling. Some amount of
 consideration of FFI friendliness went into these decisions.
 
 外部功能接口(FFI）友好性受到一定程度的关注。许多非 C 语言支持 C 接口。
-从基本的 sed 到基于 libclang 的复杂工具,这些 FFI 系统的复杂程度差异很大，
+从基本的 sed 到基于 libclang 的复杂工具，这些 FFI 系统的复杂程度差异很大，
 这些决定融入了一些对 FFI 友好的考量。
 
 ## Language versions
@@ -96,14 +96,14 @@ set of exceptions, such as unix signal support, that are not
 particularly relevant to our C library ABI). C99 compliance is not a
 goal.
 
-Fuchsia C库是根据C11标准编写的(有一些小的例外，例如 unix signal 支持，
+Fuchsia C库是基于C11标准编写的(有一些小的例外，例如 unix signal 支持，
 这与我们的 C 库 ABI 并不特别相关)。C99 合规不在考虑范围内。
 
 In particular, Fuchsia C code can use the `<threads.h>` and
 `<stdatomic.h>` headers from the C11 standard library, as well as the
 `_Thread_local` and alignment language features.
 
-通常，Fuchsia C 代码可以使用 C11 标准库中的 `<threads.h>` 以及 `<stdatomic.h>` 
+特别要提到的是 Fuchsia C 代码可以使用 C11 标准库中的 `<threads.h>` 以及 `<stdatomic.h>` 
 头文件，以及 `_Thread_local` 和对齐语言特性。
 
 The thread locals should use the `thread_local` spelling from
@@ -132,11 +132,11 @@ rules below: the name of the library is not a prefix. Doing so would
 make the names fit less well next to other functions like
 `thrd_current` and `dlopen`, and so we allow the exceptions.
 
-最后，一些在我们 SDK 中的库(例如 Fuchsia 的 C 标准库)是外部定义的接口和 Fuchsia
+最后，我们 SDK 中的一些库(例如 Fuchsia 的 C 标准库)是外部定义的接口和 Fuchsia
 特定扩展的混合。在这些情况下，我们允许一些实用主义的思路。例如，libc 定义了一些类似
-`thrd_get_zx_handle` 和 `dlopen_vmo` 的函数。这些名称并不是严格按照下面的规则的：
-库的名称不是一个前缀。这样做会使得名称与其它函数(例如 `thrd_current` 和 `dlopen`)
-的匹配性降低，所以我们允许异常的发生。
+`thrd_get_zx_handle` 和 `dlopen_vmo` 的函数。这些名称并不是严格符合下面的规则：
+库的名称不是一个前缀。这种命名方式使得这些函数在与其他一些函数
+(例如 `thrd_current` 和 `dlopen`)并用时会比较相称，所以我们允许了这些例外的存在。
 
 ### C++
 ### C++
@@ -146,7 +146,7 @@ to be usable from C++. Fuchsia C headers should be compatible with the
 C++11, C++14, and C++17 standards. In particular, function
 declarations must be `extern "C"`, as described below.
 
-尽管 C++ 不是 C 的精确超集，我们仍然设计 C 库可以从 C++ 中使用。Fuchsia C 的
+尽管 C++ 不是 C 的精确超集，我们仍然将 C 库设计为可以在 C++ 中使用。Fuchsia C 的
 头文件应当与 C++11, C++14 以及 C++17 标准兼容。通常情况下，函数声明必须是 
 `extern "C"` 的，详细的描述见下。
 
@@ -154,7 +154,7 @@ C and C++ interfaces should not be mixed in one header. Instead,
 create a separate `cpp` subdirectory and place C++ interfaces in their
 own headers there.
 
-C 和 C++ 的接口不应当混写一个头文件里。相对的，创建一个分开的 `cpp` 子目录并将
+C 和 C++ 的接口不应当混写在一个头文件里，而是应当创建一个独立的 `cpp` 子目录并将
 C++ 接口放入它们各自的头文件中。
 
 ## Library Layout and Naming
@@ -164,7 +164,7 @@ A Fuchsia C library has a name. This name determines its include path
 (as described in the [library naming document]) as well as identifiers
 within the library.
 
-Fuchsia C 库拥有一个名称。这个名称明确了其包含的路径(再 [library naming 
+Fuchsia C 库拥有一个名称。这个名称明确了它的 include 路径(在 [library naming 
 document] 中有所描述) 以及库中的标识符。
 
 In this document, the library is always named `tag`, and is variously
@@ -174,21 +174,21 @@ without underscores. The all-lowercase form of a tag is given by the
 regular expression `[a-z][a-z0-9]*`.  A tag can be replaced by a shorter
 version of the library name, for example `zx` instead of `zircon`.
 
-在此文档中，库通常命名为 `tag`，同样也可被命名为 `tag`，`TAG`，`Tag` 或 `KTag`
-以反映特定的词汇习惯。`tag` 应当是没有下划线的单一标识符。全小写格式的 tag 应当来
-自正则表达书 `[a-z][a-z0-9]*`。tag 可以被缩写的库名称所替换，例如用 `zx` 替换 
+在此文档中，库通常被命名为 `tag`，同样也可被命名为 `tag`，`TAG`，`Tag` 或 `KTag`
+以反映特定的词汇习惯。`tag` 应当是没有下划线的单一标识符。全小写格式的 tag 应当符合
+正则表达式 `[a-z][a-z0-9]*`。tag 可以被缩写的库名称所替换，例如用 `zx` 替换 
 `zircon`。 
 
 The include path for a header `foo.h`, as described by the [library
 naming document], should be `lib/tag/foo.h`.
 
-如 [library naming document] 所描述,头文件 `foo.h` 的包含路径应当是 `lib/tag/foo.h`。
+如 [library naming document] 所描述，头文件 `foo.h` 的 include 路径应当是 `lib/tag/foo.h`。
 
 ## Header Layout
 ## 头文件布局
 
 A single header in a C library contains a few kinds of things.
-C 库中独立的头文件包含一下这些东西。
+C 库中独立的头文件包含以下内容。
 
 - A copyright banner
 - A header guard
@@ -201,7 +201,7 @@ C 库中独立的头文件包含一下这些东西。
 - Macro definitions
 
 - copyright banner
-- 头文件防范
+- 头文件防范 （头文件1防卫式声明）
 - 包含文件列表
 - 外部 C 防范
 - 一致性声明
